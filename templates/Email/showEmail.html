@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>邮件</title>
+    <link rel="stylesheet" href="/static/layui/css/layui.css">
+    <script src="/static/layui/layui.js"></script>
+</head>
+<body>
+    <div class="layui-container">
+        <div class="layui-row">
+            <div class="layui-col-md3">
+
+                    <ul class="layui-nav layui-nav-tree layui-nav-side" lay-filter="test">
+        <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
+                        <li class="layui-nav-item"><a href="/Email/"><i class="layui-icon layui-icon-template-1"></i>&nbsp&nbsp收件箱</a></li>
+                        <li class="layui-nav-item"><a href="/Email/sentEmail"><i class="layui-icon layui-icon-ok"></i>&nbsp&nbsp已发送</a></li>
+                        <li class="layui-nav-item"><a href="/Email/writeEmail"><i class="layui-icon layui-icon-edit"></i>&nbsp&nbsp写信</a></li>
+                        <li class="layui-nav-item"><a href="/Email/draftBox"><i class="layui-icon layui-icon-file-b"></i>&nbsp&nbsp草稿箱</a></li>
+                    </ul>
+
+            </div>
+            <div class="layui-col-md9 layui-col-md-offset3">
+
+
+
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+//注意：导航 依赖 element 模块，否则无法进行功能性操作
+    layui.use('element', function(){
+      var element = layui.element;
+
+      //…
+    });
+</script>
+<script>
+//Demo
+    layui.use('form', function(){
+      var form = layui.form;
+
+      //监听提交
+      form.on('submit(formDemo)', function(data){
+        layer.msg(JSON.stringify(data.field));
+        return false;
+      });
+    });
+</script>
+</html>

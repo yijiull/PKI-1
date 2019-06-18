@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>学堂助手</title>
+    <link rel="stylesheet" href="/static/layui/css/layui.css">
+    <script src="/static/layui/layui.js"></script>
+</head>
+<body>
+
+{% if error %}
+<h1>用户名或密码错误</h1>
+{% endif %}
+
+  <div class="layui-header layui-container layui-bg-black">
+      <i class="layui-icon layui-icon-release layui-layout-body" ></i>
+
+
+    <ul class="layui-nav layui-layout-left">
+      <li class="layui-nav-item layui-this" >
+        <a href="/"><i class="iconfont icon-jiaoliu"></i>我的课程</a>
+      </li>
+      <li class="layui-nav-item">
+        <a href="/Email" target="_blank"><i class="iconfont icon-iconmingxinganli"></i>邮箱</a>
+      </li>
+      <li class="layui-nav-item">
+        <a href="/" target="_blank"><i class="iconfont icon-ui"></i>云盘</a>
+      </li>
+    </ul>
+
+    <ul class="layui-nav layui-layout-right">
+
+      <li class="layui-nav-item">
+        <a class="iconfont icon-touxiang layui-hide-xs" href=" url 'Course:login' %}"></a>
+      </li>
+      <li class="layui-nav-item">
+          <a id="login" href="{% url 'Course:login' %}">登录</a>
+      </li>
+      <li class="layui-nav-item">
+        <a href="user/reg.html">注册</a>
+      </li>
+    </ul>
+
+  </div>
+
+</body>
+</html>

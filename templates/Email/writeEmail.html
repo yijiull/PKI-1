@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>编辑邮件</title>
+    <link rel="stylesheet" href="/static/layui/css/layui.css">
+    <script src="/static/layui/layui.js"></script>
+</head>
+<body>
+    <div class="layui-container">
+        <div class="layui-row">
+            <div class="layui-col-md3">
+                <ul class="layui-nav layui-nav-tree layui-nav-side" lay-filter="test">
+        <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
+                    <li class="layui-nav-item"><a href="/Email"><i class="layui-icon layui-icon-template-1"></i>&nbsp&nbsp收件箱</a></li>
+                    <li class="layui-nav-item"><a href="/Email/sentEmail"><i class="layui-icon layui-icon-ok"></i>&nbsp&nbsp已发送</a></li>
+                    <li class="layui-nav-item"><a href="/Email/writeEmail"><i class="layui-icon layui-icon-edit"></i>&nbsp&nbsp写信</a></li>
+                    <li class="layui-nav-item"><a href="/Email/draftBox"><i class="layui-icon layui-icon-file-b"></i>&nbsp&nbsp草稿箱</a></li>
+                </ul>
+            </div>
+            <div class="layui-col-md9 layui-col-md-offset2">
+                <br>
+                <br>
+                <br>
+                <br>
+                <form class="layui-form" action="{% url 'Email:postEmail' %}" method="post">
+                    {% csrf_token %}
+                  <div class="layui-form-item">
+                    <label class="layui-form-label">收件人：</label>
+                    <div class="layui-input-block">
+                      <input type="text" name="receiver" required  lay-verify="required" placeholder="请输入收件人" autocomplete="off" class="layui-input">
+                    </div>
+                  </div>
+                    <div class="layui-form-item">
+                    <label class="layui-form-label">主题：</label>
+                    <div class="layui-input-block">
+                      <input type="text" name="title" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                    </div>
+                  </div>
+{#                  <div class="layui-form-item">#}
+{#                    <label class="layui-form-label">数字签名？</label>#}
+{#                    <div class="layui-input-block">#}
+{#                      <input type="checkbox" name="isSignature" lay-skin="switch">#}
+{#                    </div>#}
+{#                  </div>#}
+                  <div class="layui-form-item">
+                    <label class="layui-form-label">加密？</label>
+                    <div class="layui-input-block">
+                      <input type="radio" name="isEncrypto" value="0" title="不加密">
+                      <input type="radio" name="isEncrypto" value="1" title="加密" checked>
+                    </div>
+                  </div>
+                  <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">文本内容：</label>
+                    <div class="layui-input-block">
+                      <textarea name="content" placeholder="请输入内容" class="layui-textarea"></textarea>
+                    </div>
+                  </div>
+                  <div class="layui-form-item">
+                    <div class="layui-input-block">
+                      <button class="layui-btn" lay-submit lay-filter="formDemo" formaction="{% url 'Email:postEmail' %}">发送</button>
+                      <button class="layui-btn layui-btn-primary" lay-submit lay-filter="formDemo" formaction="{% url 'Email:draftBox' %}">保存草稿</button>
+                    </div>
+                  </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+//注意：导航 依赖 element 模块，否则无法进行功能性操作
+    layui.use('element', function(){
+      var element = layui.element;
+
+      //…
+    });
+</script>
+<script>
+//Demo
+    layui.use('form', function(){
+      var form = layui.form;
+
+      //监听提交
+      //form.on('submit(formDemo)', function(data){
+      //  layer.msg(JSON.stringify(data.field));
+      //  return false;
+      //});
+    });
+
+    {% if saveDraft %}
+    layui.use(['layer',], function () {
+        let $ = layui.jquery,
+            layer = layui.layer;
+        layer.msg("保存草稿成功");
+    });
+    {% endif %}
+
+    {% if sendEmail %}
+    layui.use(['layer',], function () {
+        let $ = layui.jquery,
+            layer = layui.layer;
+        layer.msg("发送邮件成功");
+    });
+    {% endif %}
+
+    {% if noReceiver %}
+    layui.use(['layer',], function () {
+        let $ = layui.jquery,
+            layer = layui.layer;
+        layer.msg("收件人不存在");
+    });
+    {% endif %}
+</script>
+</html>

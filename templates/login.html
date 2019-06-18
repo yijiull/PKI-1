@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <link rel="stylesheet" href="/static/layui/css/layui.css">
+    <script src="/static/layui/layui.js"></script>
+</head>
+<body>
+
+{% if error %}
+<div id="error" style="display: none" >{{ error }}</div>
+{% endif %}
+
+<div class="layui-header layui-container layui-bg-black">
+    <i class="layui-icon layui-icon-release layui-layout-body" ></i>
+
+
+    <ul class="layui-nav layui-layout-left">
+        <li class="layui-nav-item layui-this" >
+            <a href="/"><i class="iconfont icon-jiaoliu"></i>我的课程</a>
+        </li>
+        <li class="layui-nav-item">
+            <a href="/Email" target="_blank"><i class="iconfont icon-iconmingxinganli"></i>邮箱</a>
+        </li>
+        <li class="layui-nav-item">
+            <a href="/" target="_blank"><i class="iconfont icon-ui"></i>云盘</a>
+        </li>
+    </ul>
+
+    <ul class="layui-nav layui-layout-right">
+
+        <li class="layui-nav-item">
+            <a class="iconfont icon-touxiang layui-hide-xs" href="{% url 'Course:login' %}"></a>
+        </li>
+        <li class="layui-nav-item">
+            <a href="{% url 'Course:login' %}">登录</a>
+        </li>
+        <li class="layui-nav-item">
+            <a href="user/reg.html">注册</a>
+        </li>
+    </ul>
+
+</div>
+
+<form class="layui-form" action="{% url 'Course:login_verify' %}" method="post">
+    {% csrf_token %}
+  <div class="layui-form-item">
+    <label class="layui-form-label">学号</label>
+    <div class="layui-input-block">
+      <input type="text" name="userid" lay-verify="title" autocomplete="on" placeholder="请输入学号" class="layui-input">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">密码</label>
+    <div class="layui-input-block">
+      <input type="password" name="password" lay-verify="required" lay-reqtext="用户名是必填项，岂能为空？" placeholder="请输入" autocomplete="off" class="layui-input">
+    </div>
+  </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn">登录</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+
+<script>
+    {% if error %}
+    layui.use(['layer',], function () {
+        let $ = layui.jquery,
+            layer = layui.layer;
+        layer.msg($('#error').text());
+    });
+    {% endif %}
+</script>
+
+
+</body>
+</html>
