@@ -8,9 +8,6 @@
 </head>
 <body>
 
-{% if error %}
-<div id="error" style="display: none" >{{ error }}</div>
-{% endif %}
 
 <div class="layui-header layui-container layui-bg-black">
     <i class="layui-icon layui-icon-release layui-layout-body" ></i>
@@ -66,12 +63,12 @@
 </form>
 
 <script>
-    {% if error %}
-    layui.use(['layer',], function () {
-        let $ = layui.jquery,
-            layer = layui.layer;
-        layer.msg($('#error').text());
-    });
+    {% if merror %}
+        let merror = '{{ merror|safe }}';
+        layui.use(['layer',], function () {
+            let layer = layui.layer;
+                layer.msg(merror);
+        });
     {% endif %}
 </script>
 

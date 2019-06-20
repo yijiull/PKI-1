@@ -10,6 +10,7 @@ from Email.models import draft
 
 
 
+
 def index(request):
     email_list = Email.objects.all()
     template = loader.get_template('Email/index.html')

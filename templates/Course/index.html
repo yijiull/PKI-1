@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>学堂助手</title>
+    <link rel="stylesheet" href="/static/layui/css/layui.css">
+    <script src="/static/layui/layui.js"></script>
+</head>
+<body style="background-color: #f2f2f2">
+
+  <div class="layui-header layui-bg-black">
+      <!--
+      <i class="layui-icon layui-icon-release layui-layout-body" ></i>
+      -->
+
+    <ul class="layui-nav layui-layout-left" style="padding-left: 200px">
+      <li class="layui-nav-item layui-this" >
+        <a href="/Course"><i class="iconfont icon-jiaoliu"></i>课程</a>
+      </li>
+      <li class="layui-nav-item">
+        <a href="/Email" target="_blank"><i class="iconfont icon-iconmingxinganli"></i>邮箱</a>
+      </li>
+      <li class="layui-nav-item">
+        <a href="/" target="_blank"><i class="iconfont icon-ui"></i>云盘</a>
+      </li>
+    </ul>
+
+    <ul class="layui-nav layui-layout-right" style="padding-right: 200px">
+
+      <li class="layui-nav-item">
+        <a class="iconfont icon-touxiang layui-hide-xs" href="{% url 'Course:login' %}"></a>
+      </li>
+      <li class="layui-nav-item">
+          <a id="login" href="{% url 'Course:login' %}">登录</a>
+      </li>
+      <li class="layui-nav-item">
+        <a href="{% url 'Course:register' %}">注册</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="layui-container">
+      <div class="layui-row layui-col-space10">
+          <div class="layui-col-md3" style="background-color: #eeeeee">
+              <div class="layui-row" style="border: 1px solid; text-align: center; padding-bottom: 40px;">
+                  <br>
+                  {% if user.picture %}
+                      <img src="/{{ user.picture.name }}" id="profile"  style="width: 120px;, height: 120px; border-radius: 100% 100%" alt="头像">
+                  {% else %}
+                      <img src="/static/res/Luffy.jpg" style="width: 120px;, height: 120px;" alt="头像">
+                  {% endif %}
+                  <br>
+                  <br>
+                  <h1 style="display: inline-block"> {{ user.u_name }} </h1>
+                  {% ifequal user.sex  'BY' %}
+                      <i class="layui-icon layui-icon-male" style="color: #1E9FFF; display: inline-block" ></i>
+                  {% endifequal %}
+                  {% ifequal user.sex  'GL' %}
+                      <i class="layui-icon layui-icon-female" style="color: #ff1317; display: inline-block" ></i>
+                  {% endifequal %}
+                  <br>
+                  <br>
+                  <p style="line-height: 20px; text-align: left; padding-left: 30px;">
+                      <i class="layui-icon layui-icon-location" style="color: #009688"> </i> <i>{{ user.dept }}</i>
+                      <br>
+                      <i class="layui-icon layui-icon-username" style="color: #009688"> </i> <i>{{ user.u_id }}</i>
+                      <br>
+                      <!-- doc
+                      如何指定date的显示格式： https://stackoverflow.com/questions/25204299/django-change-default-presentation-format-of-model-date-field
+                      https://docs.djangoproject.com/en/dev/ref/templates/builtins/#date
+                      -->
+                      <i class="layui-icon layui-icon-date" style="color: #009688"> </i> <i>{{ user.birth|date:'Y-n-j' }}</i>
+                      <br>
+                      <i class="layui-icon layui-icon-cellphone" style="color: #009688"> </i> <i>{{ user.tel }}</i>
+                      <br>
+                      <i class="layui-icon layui-icon-dialogue" style="color: #009688">  </i> <i>{{ user.email }}</i>
+                  </p>
+              </div>
+              <div style="border: 1px solid">
+                  <div class="layui-row" style="text-align: center; padding:20px 0;">
+                      <i class="layui-icon layui-icon-notice" style="color: #FF5722;" ></i>
+                      <h2 style="display: inline-block; color: #393D49;">我的消息</h2>
+                  </div>
+                  <div class="layui-row">
+                      <ul>
+                          <li>第一条</li>
+                          <li>第二条</li>
+                          <li>第三条</li>
+                      </ul>
+
+                  </div>
+              </div>
+          </div>
+          <div class="layui-col-md9" >
+              <div class="layui-row" style="margin-top: 20px">
+                  <a href="/static/res/Luffy.jpg">点击下载</a>
+                  <div class="layui-col-md9 layui-tab layui-tab-brief">
+                      <ul class="layui-tab-title">
+                          <li class="layui-this">公告通知栏</li>
+                      </ul>
+                      <div class="layui-tab-content">
+                          {% for nt in notice %}
+                              <div class="layui-tab-item layui-show" style="margin-bottom: 20px; background-color: #dddddd">
+                                  {% ifequal nt.type 'NT' %}
+                                      <a class="layui-badge layui-bg-green">通知</a>
+                                  {% else %}
+                                      <a class="layui-badge layui-bg-green">作业</a>
+                                  {% endifequal %}
+                                  <a> <a style="color: #009688">【{{ nt.course.c_name }}】</a> <span style="color: #2F4056; ">【{{ nt.time|date:'Y-n-j G:i:s' }}】</span> </a>
+                                  <p style="margin-top: 5px;">{{ nt.text }}</p>
+
+                              </div>
+                          {% endfor %}
+                      </div>
+
+                  </div>
+                  <div class="layui-col-md3 layui-bg-gray" id="calendar">
+                  </div>
+              </div>
+              <div class="layui-row" style="padding-top: 20px">
+
+                  <div class="layui-col-md12 layui-tab layui-tab-brief">
+                      <ul class="layui-tab-title">
+                          <li style="display: inline-block;" class="layui-this">课程列表</li>
+                      </ul>
+                      <div class="layui-collapse">
+                          {% for c in course %}
+                              <div class="layui-colla-item">
+                                  <div class="layui-colla-title" style="background-color: #e2e2e2">
+                                      <h3 style="display: inline-block;"> {{ c.c_name }}</h3>
+                                      <a style="float: right; color: #009688;" href="/Course/{{ c.c_id }}/info/">课程主页...</a>
+                                  </div>
+                                  <div class="layui-colla-content layui-show">
+                                      <p style="padding-bottom: 10px;">
+                                          <span class="layui-icon layui-icon-username" style="font-size: 18px; color: #009688;"> </span>
+                                          <span style="font-size: 18px;">授课教师:</span> {{ c.c_teacher }}
+                                      </p>
+                                      <p>
+                                          <span class="layui-icon layui-icon-about"  style="font-size: 18px; color: #009688;"> </span>
+                                          <span style="font-size: 18px;">课程介绍:  </span>{{ c.c_info }}
+                                      </p>
+
+                                  </div>
+
+                              </div>
+                          {% endfor %}
+                      </div>
+                      <!--
+                      <div class="layui-row">
+                          <div class="layui-col-md3" style="height: 60px">计算方法</div>
+                          <div class="layui-col-md3">PKI</div>
+                          <div class="layui-col-md3">密码学</div>
+                      </div>
+                      <div class="layui-row">
+                          <div class="layui-col-md3">操作系统</div>
+                          <div class="layui-col-md3">计算机网络</div>
+                          <div class="layui-col-md3">数据结构</div>
+                      </div>
+                      -->
+
+                  </div>
+              </div>
+          </div>
+      </div>
+
+  </div>
+  <script>
+      layui.use(['laydate', 'layer', 'element'], function () {
+          let element = layui.element;
+          let laydate = layui.laydate;
+          let layer = layui.layer,
+              $ = layui.jquery;
+          laydate.render({
+              elem: '#calendar'
+              ,position: 'static'
+              ,type: 'date'
+              ,show: true
+              ,showBottom: false
+              ,calendar: true
+              ,change: function(value, date){
+                  layer.msg(value);
+              }
+          });
+      })
+  </script>
+</body>
+</html>

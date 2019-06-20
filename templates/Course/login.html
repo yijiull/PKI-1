@@ -1,0 +1,97 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>登录</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" href="/static/layui/css/layui.css">
+  <link rel="stylesheet" href="/static/layui/css/global.css">
+</head>
+<body>
+
+
+<div class="layui-header layui-container layui-bg-black">
+    <i class="layui-icon layui-icon-release layui-layout-body" ></i>
+
+
+    <ul class="layui-nav layui-layout-left">
+        <li class="layui-nav-item" >
+            <a href="/Course"><i class="iconfont icon-jiaoliu"></i>我的课程</a>
+        </li>
+        <li class="layui-nav-item">
+            <a href="/Email" target="_blank"><i class="iconfont icon-iconmingxinganli"></i>邮箱</a>
+        </li>
+        <li class="layui-nav-item">
+            <a href="/" target="_blank"><i class="iconfont icon-ui"></i>云盘</a>
+        </li>
+    </ul>
+
+    <ul class="layui-nav layui-layout-right">
+
+        <li class="layui-nav-item">
+            <a class="iconfont icon-touxiang layui-hide-xs" href="{% url 'Course:login' %}"></a>
+        </li>
+        <li class="layui-nav-item">
+            <a id="login" href="{% url 'Course:login' %}">登录</a>
+        </li>
+        <li class="layui-nav-item">
+            <a href="{% url 'Course:register' %}">注册</a>
+        </li>
+    </ul>
+
+</div>
+
+<div class="layui-container fly-marginTop">
+  <div class="fly-panel fly-panel-user" pad20>
+    <div class="layui-tab layui-tab-brief" lay-filter="user">
+      <ul class="layui-tab-title">
+        <li class="layui-this">登入</li>
+        <li><a href="{% url 'Course:register' %}">注册</a></li>
+      </ul>
+      <div class="layui-form layui-tab-content" id="LAY_ucm" style="padding: 20px 0;">
+        <div class="layui-tab-item layui-show">
+          <div class="layui-form layui-form-pane">
+            <form action="{% url 'Course:login_verify' %}" method="post">
+                {% csrf_token %}
+              <div class="layui-form-item">
+                <label for="L_email" class="layui-form-label">学号</label>
+                <div class="layui-input-inline">
+                  <input type="text" id="L_email" name="userid" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label for="L_pass" class="layui-form-label">密码</label>
+                <div class="layui-input-inline">
+                  <input type="password" id="L_pass" name="password" required lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <button class="layui-btn" lay-filter="*" lay-submit>立即登录</button>
+                <span style="padding-left:20px;">
+                  <a href="forget.html">忘记密码？</a>
+                </span>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script src="/static/layui/layui.js"></script>
+<script>
+    {% if merror %}
+        layui.use(['layer',], function () {
+            let error = '{{ merror|safe }}';
+            let layer = layui.layer;
+            layer.msg(error);
+        })
+    {% endif %}
+
+</script>
+
+</body>
+</html>
